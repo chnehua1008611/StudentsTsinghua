@@ -1,0 +1,61 @@
+package com.qq.weixin.sdk.messageHadler;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+
+import org.w3c.dom.Element;
+
+import com.qq.weixin.sdk.message.Message;
+import com.qq.weixin.sdk.message.MessageResultText;
+import com.qq.weixin.sdk.message.MessageText;
+
+/**
+ * handle text message
+ * 
+ * @author hujiawei
+ * 
+ */
+public class MessageHandlerText extends MessageHandlerHelper {
+
+	@Override
+	public Message handleSpecialMessage(Message message) {
+		MessageText messageText = (MessageText) message;
+		String content = messageText.getContent();
+		MessageResultText messageResultText = new MessageResultText();
+		messageResultText.setMsgType(MESSAGE_RESULT_TEXT);
+		// try {
+		// messageResultText.setContent("UTF-8:" + URLEncoder.encode("清华", "UTF-8") + " || GBK:" + URLEncoder.encode("学生", "GBK"));
+		// try {
+		// messageResultText.setContent(new String("学生在清华".getBytes("UTF-8")));
+		// } catch (UnsupportedEncodingException e) {
+		// e.printStackTrace();
+		// }
+		try {
+			content = new String(content.getBytes(), "ISO-8859-1");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+		if (content.indexOf("帮助") > 0) {
+			messageResultText.setContent("true");
+		} else {
+			messageResultText.setContent("false");
+		}
+		// messageResultText.setContent("学生在清华");
+		// } catch (UnsupportedEncodingException e) {
+		// e.printStackTrace();
+		// }
+		messageResultText.setFromUserName(message.getToUserName());
+		messageResultText.setToUserName(message.getFromUserName());
+		messageResultText.setFuncFlag(1);//
+		messageResultText.setCreateTime(getCurrentUnixTimestamp());
+		return messageResultText;
+	}
+
+	@Override
+	protected void parseSpecialMessage(Message message, Element root) {
+		MessageText messageText = (MessageText) message;
+		messageText.setContent(root.getElementsByTagName(TAG_CONTENT).item(0).getTextContent());
+	}
+
+}

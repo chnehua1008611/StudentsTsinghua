@@ -1,0 +1,35 @@
+package com.qq.weixin.sdk;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PrintWriter;
+
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
+
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.xml.sax.SAXException;
+
+public class MessageUtil implements IMessage {
+
+	public Message parseXmlToMessage(InputStream is) {
+		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
+		Message message = new Message();
+		try {
+			Document document = factory.newDocumentBuilder().parse(is);
+			Element root = document.getDocumentElement();
+			Node node = (root.getElementsByTagName("MsgType")).item(0);
+			String type = node.getNodeValue();
+		} catch (SAXException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
+		}
+		return message;
+	}
+
+}
