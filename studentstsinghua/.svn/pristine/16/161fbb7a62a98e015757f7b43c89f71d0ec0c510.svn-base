@@ -23,16 +23,16 @@ import com.qq.weixin.sdk.message.MessageImage;
 import com.qq.weixin.sdk.message.MessageLink;
 import com.qq.weixin.sdk.message.MessageLocation;
 import com.qq.weixin.sdk.message.MessageText;
-import com.qq.weixin.sdk.message.handler.MessageHandlerEvent;
-import com.qq.weixin.sdk.message.handler.MessageHandlerHelper;
-import com.qq.weixin.sdk.message.handler.MessageHandlerImage;
-import com.qq.weixin.sdk.message.handler.MessageHandlerLink;
-import com.qq.weixin.sdk.message.handler.MessageHandlerLocation;
-import com.qq.weixin.sdk.message.handler.MessageHandlerText;
-import com.qq.weixin.sdk.message.result.handler.MessageResultHandlerHelper;
-import com.qq.weixin.sdk.message.result.handler.MessageResultHandlerMusic;
-import com.qq.weixin.sdk.message.result.handler.MessageResultHandlerNews;
-import com.qq.weixin.sdk.message.result.handler.MessageResultHandlerText;
+import com.qq.weixin.sdk.messageHadler.MessageHandlerHelper;
+import com.qq.weixin.sdk.messageHadler.MessageHandlerEvent;
+import com.qq.weixin.sdk.messageHadler.MessageHandlerImage;
+import com.qq.weixin.sdk.messageHadler.MessageHandlerLink;
+import com.qq.weixin.sdk.messageHadler.MessageHandlerLocation;
+import com.qq.weixin.sdk.messageHadler.MessageHandlerText;
+import com.qq.weixin.sdk.messageResultHadler.MessageResultHandlerHelper;
+import com.qq.weixin.sdk.messageResultHadler.MessageResultHandlerMusic;
+import com.qq.weixin.sdk.messageResultHadler.MessageResultHandlerNews;
+import com.qq.weixin.sdk.messageResultHadler.MessageResultHandlerText;
 
 /**
  * weixin tool class

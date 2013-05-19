@@ -1,6 +1,5 @@
 package com.qq.weixin.sdk.message;
 
-import com.qq.weixin.sdk.item.ItemMusic;
 
 /**
  * message result music

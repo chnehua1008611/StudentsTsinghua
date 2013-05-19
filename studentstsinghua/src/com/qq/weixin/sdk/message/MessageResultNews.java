@@ -2,7 +2,6 @@ package com.qq.weixin.sdk.message;
 
 import java.util.List;
 
-import com.qq.weixin.sdk.item.ItemArticle;
 
 /**
  * message result news
