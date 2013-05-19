@@ -1,0 +1,29 @@
+#Sun May 19 18:48:10 CST 2013
+result=<xml>
+ <ToUserName><![CDATA[toUser]]></ToUserName>
+ <FromUserName><![CDATA[fromUser]]></FromUserName>
+ <CreateTime>12345678</CreateTime>
+ <MsgType><![CDATA[news]]></MsgType>
+ <ArticleCount>2</ArticleCount>
+ <Articles>
+ <item>
+ <Title><![CDATA[title1]]></Title> 
+ <Description><![CDATA[description1]]></Description>
+ <PicUrl><![CDATA[picurl]]></PicUrl>
+ <Url><![CDATA[url]]></Url>
+ </item>
+ <item>
+ <Title><![CDATA[title]]></Title>
+ <Description><![CDATA[description]]></Description>
+ <PicUrl><![CDATA[picurl]]></PicUrl>
+ <Url><![CDATA[url]]></Url>
+ </item>
+ </Articles>
+ <FuncFlag>1</FuncFlag>
+ </xml> 
+result_show=\u6F14\u51FA\u8D44\u8BAF
+show=\u6F14\u51FA|\u6F14\u51FA\u8D44\u8BAF|\u6587\u827A\u6F14\u51FA
+help=\u5E2E\u52A9|\u4F7F\u7528|help
+result_help=\u56DE\u590D\u6F14\u51FA\u6216\u8005\u7535\u5F71\u6216\u8005\u8BB2\u5EA7\u5373\u53EF\u67E5\u770B\u6700\u65B0\u7684\u6F14\u51FA/\u7535\u5F71/\u8BB2\u5EA7
+default_greeting=\u6B22\u8FCE\u5173\u6CE8\u6E05\u534E\u5927\u5B66\u5B66\u751F\u5728\u6E05\u534E\uFF0C\u53CA\u65F6\u67E5\u770B\u6E05\u534E\u5927\u5B66\u6587\u827A\u6F14\u51FA\u3001\u7535\u5F71\u8BB2\u5EA7\u7B49\u4FE1\u606F\uFF0C\u4E30\u5BCC\u591A\u5F69\u7684\u6821\u56ED\u751F\u6D3B\u4ECE\u6B64\u5F00\u59CB\uFF01\u5FEB\u70B9\u56DE\u590D"\u4F7F\u7528"\u67E5\u770B\u6211\u4EEC\u7684\u4F7F\u7528\u65B9\u6CD5\uFF01
+no_result=\u4E0D\u597D\u610F\u601D\u54C8\uFF0C\u6682\u4E0D\u652F\u6301\u60A8\u7684\u4FE1\u606F\uFF0C\u8BF7\u60A8\u56DE\u590D\u6F14\u51FA\u6216\u8005\u7535\u5F71\u6216\u8005\u8BB2\u5EA7\uFF0C\u60A8\u5373\u53EF\u67E5\u770B\u6700\u65B0\u7684\u6F14\u51FA/\u7535\u5F71/\u8BB2\u5EA7
