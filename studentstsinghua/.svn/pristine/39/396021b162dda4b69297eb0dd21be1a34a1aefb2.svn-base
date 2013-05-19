@@ -1,9 +1,0 @@
-package students.tsinghua.util;
-
-public class ApplicationInfo {
-	
-	public static final String APIKEY = "GH57hml9HNY5WpqxnVMEMwHI";
-	public static final String SECRETKEY = "0QxjnWw5W6UfXTT093Izj9HnHvujI9ht";
-	
-
-}
