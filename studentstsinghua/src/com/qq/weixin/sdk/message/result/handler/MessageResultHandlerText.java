@@ -15,13 +15,12 @@ public class MessageResultHandlerText extends MessageResultHandlerHelper {
 	public String buildMessageResult(Message message) {
 		MessageResultText messageResultText = (MessageResultText) message;
 		StringBuffer buffer = new StringBuffer();
-		String toUserName = wrapperContent(TAG_TOUSERNAME, messageResultText.getToUserName(), true);
-		String fromUserName = wrapperContent(TAG_FROMUSERNAME, messageResultText.getFromUserName(), true);
-		String createTime = wrapperContent(TAG_CREATETIME, messageResultText.getCreateTime() + "", true);
-		String msgType = wrapperContent(TAG_MSGTYPE, messageResultText.getMsgType(), true);
-		String content = wrapperContent(TAG_CONTENT, messageResultText.getContent(), true);
-		String funcFlag = wrapperContent(TAG_FUNCFLAG, messageResultText.getFuncFlag() + "", true);
-		buffer.append(toUserName).append(fromUserName).append(createTime).append(msgType).append(content).append(funcFlag);
+		buffer.append(wrapperContent(TAG_TOUSERNAME, messageResultText.getToUserName(), true))
+				.append(wrapperContent(TAG_FROMUSERNAME, messageResultText.getFromUserName(), true))
+				.append(wrapperContent(TAG_CREATETIME, messageResultText.getCreateTime() + "", false))
+				.append(wrapperContent(TAG_MSGTYPE, messageResultText.getMsgType(), true))
+				.append(wrapperContent(TAG_CONTENT, messageResultText.getContent(), true))
+				.append(wrapperContent(TAG_FUNCFLAG, messageResultText.getFuncFlag() + "", false));
 		return wrapperXmlContent(buffer.toString());
 	}
 

@@ -12,15 +12,11 @@ import com.qq.weixin.sdk.message.handler.MessageHandlerHelper;
  * @author hujiawei
  * 
  */
-public abstract class MessageFilterHelper extends MessageHandlerHelper implements IMessageFilter {
-
-	// subclass handle it
-	public abstract Message doSpecailMessageFilter(Message message);
+public class MessageFilterHelper extends MessageHandlerHelper implements IMessageFilter {
 
 	@Override
 	public Message doMessageFilter(Message message) {
-		this.message = message;// must do this! otherwise, message may be null
-		return doSpecailMessageFilter(message);
+		return null;
 	}
 
 	@Override

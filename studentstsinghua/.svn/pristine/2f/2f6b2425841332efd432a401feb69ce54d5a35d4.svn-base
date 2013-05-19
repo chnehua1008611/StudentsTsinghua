@@ -15,11 +15,11 @@ import com.qq.weixin.sdk.message.MessageText;
 public class FilterHelp extends MessageFilterHelper implements IMessageFilter {
 
 	@Override
-	public Message doSpecailMessageFilter(Message message) {
+	public Message doMessageFilter(Message message) {
 		if (message instanceof MessageText) {
 			MessageText messageText = (MessageText) message;
 			if (Pattern.compile(ResourceManager.getValue("help")).matcher(messageText.getContent()).find()) {
-				return buildMessageResultText(ResourceManager.getValue("result_help"));
+				return buildDefaultMessageResultText();
 			}
 		}
 		return null;

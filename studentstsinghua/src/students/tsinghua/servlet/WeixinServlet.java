@@ -32,7 +32,9 @@ public class WeixinServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		resp.setContentType("text/plain");
 		String signature = req.getParameter("signature");
-		if (signature != null) {
+		String nonce = req.getParameter("nonce");
+		String timestamp = req.getParameter("timestamp");
+		if (weixinUtil.checkSignature(signature, timestamp, nonce)) {
 			String echostr = req.getParameter("echostr");
 			resp.getWriter().print(echostr);
 		}
@@ -40,7 +42,13 @@ public class WeixinServlet extends HttpServlet {
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-		weixinUtil.dealMessage(req, resp);
+		resp.setContentType("text/xml;charset=UTF-8");// important for showing Chinese words right
+		String signature = req.getParameter("signature");
+		String nonce = req.getParameter("nonce");
+		String timestamp = req.getParameter("timestamp");
+		if (weixinUtil.checkSignature(signature, timestamp, nonce)) {
+			weixinUtil.dealMessage(req.getInputStream(), resp.getOutputStream());
+		}
 	}
 
 	@Override

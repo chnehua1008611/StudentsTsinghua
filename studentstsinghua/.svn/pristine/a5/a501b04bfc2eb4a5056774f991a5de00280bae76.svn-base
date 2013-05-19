@@ -2,12 +2,8 @@ package com.qq.weixin.sdk;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,7 +12,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.apache.commons.codec.digest.DigestUtils;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.xml.sax.SAXException;
@@ -48,34 +43,31 @@ import com.qq.weixin.sdk.message.result.handler.MessageResultHandlerText;
 public class WeixinUtil implements IMessage {
 
 	private Logger logger = Logger.getLogger("weixin");
-	private InputStream inputStream;// request inputstream
+	private HttpServletRequest request;// request
 	private Message message;// message comes from
-	private OutputStream outputStream;// response outputstream
+	private HttpServletResponse response;// response
 	private Message messageResult;// message will return
 	private MessageHandlerHelper messageHadler;// handle message
 	private MessageResultHandlerHelper messageResultHandler;// handle result message
 
-	private static final String TOKEN = "StudentsTsinghua";
-
 	// deal the message from user
-	public void dealMessage(InputStream inputStream, OutputStream outputStream) {
-		this.inputStream = inputStream;
-		this.outputStream = outputStream;
+	public void dealMessage(HttpServletRequest request, HttpServletResponse response) {
+		this.request = request;
+		this.response = response;
 		try {
-			parseInputStreamToMessage();
-		} catch (Exception e) {
-			e.printStackTrace();// parse message occurs exception
+			// logger.log(Level.INFO, "request character encoding :" + request.getCharacterEncoding());//null
+			request.setCharacterEncoding("UTF-8");
+			response.setContentType("text/xml;charset=UTF-8");// important!must set charset=UTF-8,otherwise words are not shown right
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
 		}
+		parseInputStreamToMessage();
 		messageResult = messageHadler.handleMessage(message);
-		try {
-			writeMessageResult();
-		} catch (IOException e) {
-			e.printStackTrace();// write message occurs exception
-		}
+		writeMessageResult();
 	}
 
 	// write the result message
-	private void writeMessageResult() throws IOException {
+	private void writeMessageResult() {
 		if (messageResult.getMsgType().equalsIgnoreCase(MESSAGE_RESULT_TEXT)) {
 			messageResultHandler = new MessageResultHandlerText();
 		} else if (messageResult.getMsgType().equalsIgnoreCase(MESSAGE_RESULT_NEWS)) {
@@ -83,68 +75,60 @@ public class WeixinUtil implements IMessage {
 		} else if (messageResult.getMsgType().equalsIgnoreCase(MESSAGE_RESULT_MUSIC)) {
 			messageResultHandler = new MessageResultHandlerMusic();
 		}
-		String resultContent = messageResultHandler.buildMessageResult(messageResult);
-		// String resultContent = ResourceManager.getValue("result");
-		logger.log(Level.INFO, resultContent);
-		new PrintWriter(outputStream).print(resultContent);
+		try {
+			response.getWriter().print(messageResultHandler.buildMessageResult(messageResult));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 
 	// parse the message content to Message
-	private void parseInputStreamToMessage() throws Exception {
+	private void parseInputStreamToMessage() {
 		DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
-		Document document = factory.newDocumentBuilder().parse(inputStream);
-		Element root = document.getDocumentElement();
-		String type = (root.getElementsByTagName(TAG_MSGTYPE)).item(0).getTextContent();// filter CDATA... -- text/image/...
-		if (type.equalsIgnoreCase(MESSAGE_TEXT)) {
-			message = new MessageText();
-			messageHadler = new MessageHandlerText();
-		} else if (type.equalsIgnoreCase(MESSAGE_EVENT)) {
-			message = new MessageEvent();
-			messageHadler = new MessageHandlerEvent();
-		} else if (type.equalsIgnoreCase(MESSAGE_IMAGE)) {
-			message = new MessageImage();
-			messageHadler = new MessageHandlerImage();
-		} else if (type.equalsIgnoreCase(MESSAGE_LINK)) {
-			message = new MessageLink();
-			messageHadler = new MessageHandlerLink();
-		} else if (type.equalsIgnoreCase(MESSAGE_LOCATION)) {
-			message = new MessageLocation();
-			messageHadler = new MessageHandlerLocation();
-		}
-		messageHadler.parseMessage(message, root);// do the default/common parse!
-	}
-
-	// check signature
-	public boolean checkSignature(String signature, String timestamp, String nonce) {
-		// dictionary sort
-		String[] dataStrings = new String[] { TOKEN, timestamp, nonce };
-		Arrays.sort(dataStrings);
-		// construct the three string
-		String data = dataStrings[0] + dataStrings[1] + dataStrings[2];
-		// sha1
-		String flag = DigestUtils.shaHex(data);
-		// check
-		if (data.equalsIgnoreCase(signature)) {
-			return true;
-		} else {
-			return false;
+		try {
+			Document document = factory.newDocumentBuilder().parse(request.getInputStream());
+			Element root = document.getDocumentElement();
+			String type = (root.getElementsByTagName(TAG_MSGTYPE)).item(0).getTextContent();// filter CDATA... -- text/image/...
+			if (type.equalsIgnoreCase(MESSAGE_TEXT)) {
+				message = new MessageText();
+				messageHadler = new MessageHandlerText();
+			} else if (type.equalsIgnoreCase(MESSAGE_EVENT)) {
+				message = new MessageEvent();
+				messageHadler = new MessageHandlerEvent();
+			} else if (type.equalsIgnoreCase(MESSAGE_IMAGE)) {
+				message = new MessageImage();
+				messageHadler = new MessageHandlerImage();
+			} else if (type.equalsIgnoreCase(MESSAGE_LINK)) {
+				message = new MessageLink();
+				messageHadler = new MessageHandlerLink();
+			} else if (type.equalsIgnoreCase(MESSAGE_LOCATION)) {
+				message = new MessageLocation();
+				messageHadler = new MessageHandlerLocation();
+			}
+			messageHadler.parseMessage(message, root);// do the default/common parse!
+		} catch (SAXException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (ParserConfigurationException e) {
+			e.printStackTrace();
 		}
 	}
 
-	public InputStream getInputStream() {
-		return inputStream;
+	public HttpServletRequest getRequest() {
+		return request;
 	}
 
-	public void setInputStream(InputStream inputStream) {
-		this.inputStream = inputStream;
+	public void setRequest(HttpServletRequest request) {
+		this.request = request;
 	}
 
-	public OutputStream getOutputStream() {
-		return outputStream;
+	public HttpServletResponse getResponse() {
+		return response;
 	}
 
-	public void setOutputStream(OutputStream outputStream) {
-		this.outputStream = outputStream;
+	public void setResponse(HttpServletResponse response) {
+		this.response = response;
 	}
 
 	public Message getMessage() {

@@ -12,14 +12,14 @@ import com.qq.weixin.sdk.message.MessageText;
  * @author hujiawei
  * 
  */
-public class FilterHelp extends MessageFilterHelper implements IMessageFilter {
+public class FilterShow extends MessageFilterHelper implements IMessageFilter {
 
 	@Override
-	public Message doSpecailMessageFilter(Message message) {
+	public Message doMessageFilter(Message message) {
 		if (message instanceof MessageText) {
 			MessageText messageText = (MessageText) message;
-			if (Pattern.compile(ResourceManager.getValue("help")).matcher(messageText.getContent()).find()) {
-				return buildMessageResultText(ResourceManager.getValue("result_help"));
+			if (Pattern.compile(ResourceManager.getValue("show")).matcher(messageText.getContent()).find()) {
+				return buildMessageResultText(ResourceManager.getValue("show_info"));
 			}
 		}
 		return null;
