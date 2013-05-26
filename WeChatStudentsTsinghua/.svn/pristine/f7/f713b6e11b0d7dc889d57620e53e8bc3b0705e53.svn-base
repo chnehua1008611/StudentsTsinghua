@@ -1,0 +1,12 @@
+package students.tsinghua.util;
+
+/**
+ * application info
+ * 
+ * @author hujiawei
+ * 
+ */
+public interface IApplicationInfo {
+
+	
+}

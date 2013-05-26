@@ -1,0 +1,17 @@
+package students.tsinghua.util;
+
+/**
+ * application info
+ * 
+ * @author hujiawei
+ * 
+ */
+public interface IApplicationInfo {
+
+	// the url to fetch show information
+	public static final String TAG_SHOW = "http://studentstsinghua.diandian.com/?tag=%E6%B0%B4%E6%9C%A8%E2%80%9C%E6%BC%94%E5%87%BA%E2%80%9D";
+
+	// default news size
+	public static final int DEFAULT_NEWS_SIZE = 3;
+
+}

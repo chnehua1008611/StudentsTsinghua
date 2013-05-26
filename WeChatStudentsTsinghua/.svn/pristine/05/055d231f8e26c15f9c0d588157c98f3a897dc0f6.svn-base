@@ -1,0 +1,41 @@
+package students.tsinghua.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+
+import com.qq.weixin.sdk.message.ItemArticle;
+
+public class ShowService {
+
+	// the url to fetch show information
+	public static final String TAG_SHOW = "http://studentstsinghua.diandian.com/?tag=%E6%B0%B4%E6%9C%A8%E2%80%9C%E6%BC%94%E5%87%BA%E2%80%9D";
+
+	// get the list of show
+	public List<ItemArticle> getShowList(int size) throws Exception {
+		Document document = Jsoup.connect(TAG_SHOW).get();
+		Elements element_post = document.getElementsByClass("post");
+		List<ItemArticle> items = new ArrayList<ItemArticle>();
+		ItemArticle item;
+		for (int i = 0; i < size && i < element_post.size(); i++) {
+			item = new ItemArticle();
+			item.setTitle(element_post.get(0).getElementsByTag("a").get(0).text());
+			item.setDescription(element_post.get(0).getElementsByTag("a").get(0).text());
+			item.setUrl(element_post.get(0).getElementsByTag("a").get(0).attr("href"));
+			item.setPicUrl(element_post.get(0).getElementsByTag("img").get(0).attr("src"));
+			items.add(item);
+		}
+		return items;
+	}
+
+	// for test
+	public static void main(String[] args) throws Exception {
+		ShowService showService = new ShowService();
+		showService.getShowList(10);
+		// System.out.println(showService.getShowTable(1));
+	}
+
+}

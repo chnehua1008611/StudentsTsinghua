@@ -1,0 +1,51 @@
+package com.qq.weixin.sdk.message.filter;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
+
+import com.qq.weixin.sdk.ResourceManager;
+import com.qq.weixin.sdk.message.ItemArticle;
+import com.qq.weixin.sdk.message.Message;
+import com.qq.weixin.sdk.message.MessageResultNews;
+import com.qq.weixin.sdk.message.MessageText;
+
+/**
+ * filter whether the message is for show
+ * 
+ * @author hujiawei
+ * 
+ */
+public class FilterShow extends MessageFilterHelper implements IMessageFilter {
+
+	@Override
+	public Message doSpecailMessageFilter(Message message) {
+		if (message instanceof MessageText) {// it just handle text message
+			MessageText messageText = (MessageText) message;
+			if (Pattern.compile(ResourceManager.getValue("show")).matcher(messageText.getContent()).find()) {
+				// return buildMessageResultText(ResourceManager.getValue("result_show"));
+				ItemArticle itemArticle = new ItemArticle();
+				itemArticle.setTitle("中央芭蕾舞团芭蕾舞剧《天鹅湖》");
+				itemArticle.setDescription("中央芭蕾舞团芭蕾舞剧《天鹅湖》");
+				itemArticle.setUrl("http://studentstsinghua.diandian.com/post/2013-05-19/show_tianerhu");
+				itemArticle
+						.setPicUrl("http://m2.img.libdd.com/farm4/2013/0519/00/D2CB884B72D15BAAF7DC2685013AFDD64F7980FC7554D_500_234.jpg");
+
+				ItemArticle itemArticle2 = new ItemArticle();
+				itemArticle2.setTitle("波兰克拉科维亚宫廷芭蕾舞团清华大学专场");
+				itemArticle2.setDescription("波兰克拉科维亚宫廷芭蕾舞团清华大学专场");
+				itemArticle2.setUrl("http://studentstsinghua.diandian.com/post/2013-05-18/show_bolankebalei");
+				itemArticle2
+						.setPicUrl("http://m2.img.libdd.com/farm5/2013/0518/16/87E5422718E76C74445DEE68E5DC7DB5289FCB52F102F_500_234.jpg");
+
+				List<ItemArticle> articles = new ArrayList<ItemArticle>();
+				articles.add(itemArticle);
+				articles.add(itemArticle2);
+
+				return buildMessageResultNews(articles);
+			}
+		}
+		return null;
+	}
+
+}

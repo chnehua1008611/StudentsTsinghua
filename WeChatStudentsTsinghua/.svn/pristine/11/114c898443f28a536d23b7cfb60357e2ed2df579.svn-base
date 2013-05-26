@@ -1,0 +1,50 @@
+package com.qq.weixin.sdk.message.filter;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.regex.Pattern;
+
+import com.qq.weixin.sdk.ResourceManager;
+import com.qq.weixin.sdk.message.ItemArticle;
+import com.qq.weixin.sdk.message.Message;
+import com.qq.weixin.sdk.message.MessageResultNews;
+import com.qq.weixin.sdk.message.MessageText;
+
+/**
+ * filter whether the message is for show
+ * 
+ * @author hujiawei
+ * 
+ */
+public class FilterShow extends MessageFilterHelper implements IMessageFilter {
+
+	@Override
+	public Message doSpecailMessageFilter(Message message) {
+		if (message instanceof MessageText) {// it just handle text message
+			MessageText messageText = (MessageText) message;
+			if (Pattern.compile(ResourceManager.getValue("show")).matcher(messageText.getContent()).find()) {
+				ItemArticle itemArticle = new ItemArticle();
+				itemArticle.setTitle("单声复调以色列大提琴家利普金独奏音乐会");
+				itemArticle.setDescription("单声复调以色列大提琴家利普金独奏音乐会");
+				itemArticle.setUrl("http://studentstsinghua.tumblr.com/post/51056837776/liselie_danshengfudiao");
+				itemArticle
+						.setPicUrl("http://media.tumblr.com/601216e9d23f72cd826c3cccd0ba53cb/tumblr_inline_mn6vq6QOmr1qz4rgp.jpg");
+
+				ItemArticle itemArticle2 = new ItemArticle();
+				itemArticle2.setTitle("波兰克拉科维亚宫廷芭蕾舞团清华大学专场");
+				itemArticle2.setDescription("波兰克拉科维亚宫廷芭蕾舞团清华大学专场");
+				itemArticle2.setUrl("http://studentstsinghua.tumblr.com/post/51056783768/bolan_balei");
+				itemArticle2
+						.setPicUrl("http://media.tumblr.com/37ee2a0f69ca622f36407fad19c5c43e/tumblr_inline_mn6vmjp48N1qz4rgp.jpg");
+
+				List<ItemArticle> articles = new ArrayList<ItemArticle>();
+				articles.add(itemArticle);
+				articles.add(itemArticle2);
+
+				return buildMessageResultNews(articles);
+			}
+		}
+		return null;
+	}
+
+}

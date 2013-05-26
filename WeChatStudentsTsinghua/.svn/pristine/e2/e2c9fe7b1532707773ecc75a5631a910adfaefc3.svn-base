@@ -1,0 +1,53 @@
+package students.tsinghua.service;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+
+import com.qq.weixin.sdk.message.ItemArticle;
+
+/**
+ * service for show
+ * 
+ * @author hujiawei
+ * 
+ */
+public class MovieService {
+
+	// the url to fetch show information
+	public static final String TAG_MOVIE = "http://studentstsinghua.diandian.com/?tag=%E6%B0%B4%E6%9C%A8%E2%80%9C%E7%94%B5%E5%BD%B1%E2%80%9D";
+
+	// default news size
+	public static final int DEFAULT_MOVIE_NEWS_SIZE = 1;
+
+	// get the list of show
+	public List<ItemArticle> getMovieList() throws Exception {
+		Document document = Jsoup.connect(TAG_MOVIE).get();
+		 Elements element_post = document.getElementsByClass("post");
+		List<ItemArticle> items = new ArrayList<ItemArticle>();
+		ItemArticle item = null;
+		for (int i = 0; i < DEFAULT_MOVIE_NEWS_SIZE && i < element_post.size(); i++) {
+			item = new ItemArticle();
+			item.setTitle(element_post.get(i).getElementsByTag("a").get(0).text());
+			item.setDescription(element_post.get(i).getElementsByTag("a").get(0).text());
+			item.setUrl(element_post.get(i).getElementsByTag("a").get(0).attr("href"));
+			item.setPicUrl(element_post.get(i).getElementsByTag("img").get(0).attr("src"));
+			items.add(item);
+		}
+		System.out.println(item.getTitle());
+		System.out.println(item.getDescription());
+		System.out.println(item.getUrl());
+		System.out.println(item.getPicUrl());
+		return items;
+	}
+
+	// for test
+	public static void main(String[] args) throws Exception {
+		MovieService showService = new MovieService();
+		showService.getMovieList();
+	}
+
+}
