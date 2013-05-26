@@ -4,3 +4,10 @@
 *.jar
 *.war
 *.ear
+
+#svn files
+.svn
+.svn-base
+
+#finder metadata file
+.DS_Store
