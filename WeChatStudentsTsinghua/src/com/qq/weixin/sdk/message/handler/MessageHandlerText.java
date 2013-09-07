@@ -8,6 +8,7 @@ import com.qq.weixin.sdk.message.filter.FilterChain;
 import com.qq.weixin.sdk.message.filter.FilterDefaultResult;
 import com.qq.weixin.sdk.message.filter.FilterHelp;
 import com.qq.weixin.sdk.message.filter.FilterMovie;
+import com.qq.weixin.sdk.message.filter.FilterRoom;
 import com.qq.weixin.sdk.message.filter.FilterShow;
 
 /**
@@ -25,6 +26,7 @@ public class MessageHandlerText extends MessageHandlerHelper {
 		filterChain.addFilter(new FilterHelp());
 		filterChain.addFilter(new FilterShow());
 		filterChain.addFilter(new FilterMovie());
+		filterChain.addFilter(new FilterRoom());
 		filterChain.addFilter(new FilterDefaultResult());// add this,so the next line does not have to verify whether result is null or not
 		return filterChain.doFilterChain(message);
 	}
